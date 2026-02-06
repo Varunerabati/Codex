@@ -1,31 +1,75 @@
-# Full-Stack Task Management Web Application
+# Modern Task Management Application
 
-A complete task management application built with React + Vite (frontend), Node.js + Express (backend), MongoDB + Mongoose (database), and Tailwind CSS (styling).
+A production-quality task management application with a clean, modern interface built with TypeScript, React, and Node.js. Designed to showcase intermediate-level development skills with professional UI/UX, smooth animations, and thoughtful user experience.
 
-## Why this stack?
+## Tech Stack
 
-- **React + Vite**: React gives a component-driven UI model and reusable hooks/components. Vite provides very fast dev startup and HMR.
-- **Node.js + Express**: Minimal, flexible server framework ideal for building REST APIs quickly.
-- **MongoDB + Mongoose**: Document model is a natural fit for task records. Mongoose adds schema validation, relationships, and model helpers.
-- **Tailwind CSS**: Utility-first classes speed up building consistent responsive UI without writing large custom CSS files.
+### Frontend
+- **React 18** + **Vite** - Fast, modern development experience
+- **TypeScript** - Type-safe code with excellent developer experience
+- **Tailwind CSS** - Utility-first CSS for rapid, consistent styling
+- **Framer Motion** - Smooth animations and micro-interactions
+- **Lucide Icons** - Beautiful, consistent icon system
+- **@dnd-kit** - Accessible drag-and-drop functionality
+- **Sonner** - Elegant toast notifications
+
+### Backend
+- **Node.js** + **Express** - RESTful API server
+- **SQLite** - Lightweight, serverless database
+- **JWT Authentication** - Secure, stateless authentication
+- **bcryptjs** - Password hashing
+
+## Key Features
+
+### Core Functionality
+- JWT-based authentication with protected routes
+- Create, edit, delete, and complete tasks
+- Automatic overdue task detection
+- Task prioritization (Low, Medium, High)
+- Task categorization and filtering
+- Due date tracking
+- Search functionality with instant filtering
+
+### Modern UX Enhancements
+- **Dark Mode** - Seamless light/dark theme toggle with system preference detection
+- **Drag & Drop** - Reorder tasks intuitively within columns
+- **Undo Delete** - 5-second grace period to restore deleted tasks
+- **Toast Notifications** - Elegant feedback for all actions
+- **Skeleton Loaders** - Professional loading states
+- **Smooth Animations** - Framer Motion-powered transitions
+- **Keyboard Shortcuts** - Ctrl+K to focus search
+- **Responsive Design** - Optimized for mobile, tablet, and desktop
+- **Accessibility** - ARIA labels, keyboard navigation, proper contrast
+
+### UI Components
+Professional, reusable component library:
+- Custom Button with variants and loading states
+- Styled Input, Select, and Textarea components
+- Card components with variants
+- Badge system for status indicators
+- Skeleton loaders for better perceived performance
 
 ## Architecture
 
 ```text
 backend/
   src/
-    config/      # DB connection
-    controllers/ # Route handlers
-    middleware/  # Auth, validation, errors
-    models/      # Mongoose schemas
-    routes/      # API routes
-    utils/       # Token helper
+    config/         # Database connection
+    controllers/    # Route handlers
+    middleware/     # Auth, validation, error handling
+    repositories/   # Data access layer
+    routes/         # API route definitions
+    utils/          # JWT token generation
+
 frontend/
   src/
-    api/         # Axios client
-    components/  # Reusable UI
-    context/     # Auth context
-    pages/       # Page-level screens
+    api/            # Axios HTTP client
+    components/     # React components
+      ui/           # Reusable UI component library
+    context/        # React Context (Auth, Theme)
+    hooks/          # Custom React hooks
+    pages/          # Page-level components
+    types/          # TypeScript type definitions
 ```
 
 ## Authentication flow (JWT)
@@ -45,17 +89,17 @@ frontend/
 - Query params (`category`, `priority`, `sort`) are sent from filter controls.
 - Backend returns enriched task objects with computed `status` (`Pending`, `Completed`, `Overdue`) for dashboard grouping.
 
-## Features implemented
+## Design Philosophy
 
-- JWT registration/login
-- Protected task endpoints
-- Create/edit/delete tasks
-- Mark complete/incomplete
-- Automatic overdue labeling
-- Dashboard grouped by Pending / Completed / Overdue
-- Filtering by category and priority
-- Sorting by due date
-- Input validation + centralized error handling
+This application demonstrates professional-level development with:
+
+- **Clean, Modern Aesthetic** - Inspired by Linear, Notion, and Todoist
+- **Smooth Interactions** - Framer Motion animations for delightful UX
+- **Accessibility First** - Keyboard navigation, ARIA labels, proper focus management
+- **Performance** - Skeleton loaders, optimized re-renders, efficient state management
+- **Type Safety** - Full TypeScript implementation with proper interfaces
+- **Code Organization** - Modular architecture with clear separation of concerns
+- **Production Ready** - Error handling, loading states, user feedback
 
 ## Run locally
 
@@ -72,7 +116,7 @@ cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env
 ```
 
-Update `backend/.env` with your MongoDB connection string and JWT secret.
+Update `backend/.env` with your JWT secret (SQLite database is auto-configured).
 
 ### 3) Start both apps
 
@@ -96,9 +140,39 @@ npm run dev
 - `PATCH /api/tasks/:id` (toggle completed)
 - `DELETE /api/tasks/:id`
 
-## Key implementation decisions
+## Technical Highlights
 
-- **Status derivation on backend**: `status` is computed from `completed` + `dueDate` to avoid stale frontend-only status logic.
-- **Single source of auth state**: React context stores user/token and exposes reusable methods.
-- **Reusable UI blocks**: `TaskForm`, `TaskCard`, `TaskBoard`, and `ProtectedRoute` keep components focused and composable.
-- **Validation before controller execution**: `express-validator` ensures bad input is rejected with clear 400 messages.
+### Frontend
+- **TypeScript Throughout** - Full type safety with interfaces for all data models
+- **Context API** - Centralized auth and theme state management
+- **Custom Hooks** - `useKeyboardShortcuts` for keyboard navigation
+- **Component Library** - Reusable UI components with consistent styling
+- **Framer Motion** - Entrance animations, hover effects, and smooth transitions
+- **Dark Mode** - Class-based dark mode with localStorage persistence
+- **Responsive Grid** - Three-column layout that adapts to mobile
+- **Accessibility** - Proper semantic HTML, ARIA labels, keyboard focus
+
+### Backend
+- **Repository Pattern** - Clean separation between data access and business logic
+- **JWT Authentication** - Secure token-based auth with middleware protection
+- **Input Validation** - express-validator for comprehensive request validation
+- **Error Handling** - Centralized error middleware with proper status codes
+- **SQLite Database** - Lightweight, no external database setup required
+
+### User Experience
+- **Optimistic UI Updates** - Instant feedback before server confirmation
+- **Undo Functionality** - 5-second window to restore deleted tasks
+- **Toast Notifications** - Rich notifications with actions (undo, dismiss)
+- **Skeleton Loaders** - Professional loading states instead of spinners
+- **Search** - Real-time task filtering as you type
+- **Drag and Drop** - Smooth task reordering with visual feedback
+- **Keyboard Shortcuts** - Ctrl+K for search focus, Enter to submit forms
+
+## Project Structure
+
+The codebase follows clean architecture principles:
+- **Separation of Concerns** - UI, business logic, and data access are clearly separated
+- **Reusability** - Component library approach for consistent UI
+- **Type Safety** - TypeScript ensures compile-time error catching
+- **Scalability** - Modular structure ready for feature expansion
+- **Maintainability** - Clear file organization and naming conventions
