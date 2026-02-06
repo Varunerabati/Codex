@@ -1,12 +1,12 @@
 import bcrypt from 'bcryptjs';
-import { User } from '../models/User.js';
+import { createUser, findUserByEmail } from '../repositories/userRepository.js';
 import { generateToken } from '../utils/generateToken.js';
 
 export const registerUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
-    const existing = await User.findOne({ email });
+    const existing = await findUserByEmail(email);
     if (existing) {
       const error = new Error('Email already in use');
       error.statusCode = 409;
@@ -14,11 +14,11 @@ export const registerUser = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
+    const user = await createUser({ name, email, password: hashedPassword });
 
     res.status(201).json({
-      token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email },
+      token: generateToken(user.id),
+      user,
     });
   } catch (error) {
     next(error);
@@ -29,7 +29,7 @@ export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await findUserByEmail(email);
     if (!user) {
       const error = new Error('Invalid email or password');
       error.statusCode = 401;
@@ -44,8 +44,8 @@ export const loginUser = async (req, res, next) => {
     }
 
     res.json({
-      token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email },
+      token: generateToken(user.id),
+      user: { id: user.id, name: user.name, email: user.email },
     });
   } catch (error) {
     next(error);

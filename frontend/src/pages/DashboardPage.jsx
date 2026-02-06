@@ -26,7 +26,7 @@ export const DashboardPage = () => {
 
   const submitTask = async (form) => {
     if (editingTask) {
-      await api.put(`/tasks/${editingTask._id}`, form);
+      await api.put(`/tasks/${editingTask.id}`, form);
       setEditingTask(null);
     } else {
       await api.post('/tasks', form);
@@ -35,7 +35,7 @@ export const DashboardPage = () => {
   };
 
   const toggleComplete = async (task) => {
-    await api.patch(`/tasks/${task._id}`, { completed: !task.completed });
+    await api.patch(`/tasks/${task.id}`, { completed: !task.completed });
     await fetchTasks();
   };
 

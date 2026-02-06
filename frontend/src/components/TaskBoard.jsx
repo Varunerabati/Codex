@@ -12,7 +12,7 @@ export const TaskBoard = ({ tasks, onToggleComplete, onEdit, onDelete }) => (
             .filter((task) => task.status === column)
             .map((task) => (
               <TaskCard
-                key={task._id}
+                key={task.id}
                 task={task}
                 onToggleComplete={onToggleComplete}
                 onEdit={onEdit}

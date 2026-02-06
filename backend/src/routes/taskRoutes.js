@@ -21,21 +21,16 @@ const taskValidation = [
 router.use(protect);
 router.get('/', getTasks);
 router.post('/', taskValidation, validate, createTask);
-router.put(
-  '/:id',
-  [param('id').isMongoId().withMessage('Invalid task id'), ...taskValidation],
-  validate,
-  updateTask
-);
+router.put('/:id', [param('id').isInt().withMessage('Invalid task id'), ...taskValidation], validate, updateTask);
 router.patch(
   '/:id',
   [
-    param('id').isMongoId().withMessage('Invalid task id'),
+    param('id').isInt().withMessage('Invalid task id'),
     body('completed').isBoolean().withMessage('Completed must be true or false'),
   ],
   validate,
   updateTask
 );
-router.delete('/:id', [param('id').isMongoId().withMessage('Invalid task id')], validate, deleteTask);
+router.delete('/:id', [param('id').isInt().withMessage('Invalid task id')], validate, deleteTask);
 
 export default router;
